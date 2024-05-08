@@ -1,4 +1,4 @@
-package com.tan.pojo;
+package com.tan.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Device {
+public class EntityDevice {
     private Integer deviceId; // 设备ID
     private Integer patientId; // 患者ID
     private Integer isDeleted; // 是否删除-->0未删除  1已删除

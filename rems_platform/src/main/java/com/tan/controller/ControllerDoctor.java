@@ -1,14 +1,16 @@
 package com.tan.controller;
 
-import com.tan.pojo.Doctor;
-import com.tan.pojo.PageBean;
-import com.tan.pojo.Patient;
-import com.tan.pojo.Result;
+import com.tan.dto.DtoDoctorLogin;
+import com.tan.dto.DtoDoctorRegister;
+import com.tan.entity.EntityDoctor;
+import com.tan.entity.EntityPageBean;
+import com.tan.entity.EntityResult;
 import com.tan.service.ServiceDoctor;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by TanLiangJie
@@ -22,15 +24,37 @@ public class ControllerDoctor {
     private ServiceDoctor serviceDoctor;
 
     /**
+     * 登录
+     * @param dtoDoctorLogin
+     * @return
+     */
+    @PostMapping("/login")
+    public EntityResult login(@RequestBody DtoDoctorLogin dtoDoctorLogin){
+        return serviceDoctor.login(dtoDoctorLogin);
+    }
+
+
+    /**
+     * 注册
+     * @param dtoDoctorRegister
+     * @return
+     */
+    @PostMapping("/register")
+    public EntityResult register(@RequestBody DtoDoctorRegister dtoDoctorRegister, HttpServletRequest request){
+        return serviceDoctor.register(dtoDoctorRegister,request);
+    }
+
+
+    /**
      * 获取医生列表
      * @param currentPage
      * @param pageSize
      * @return
      */
     @GetMapping
-    public Result list(@RequestParam(defaultValue = "1") Integer currentPage,@RequestParam(defaultValue = "5") Integer pageSize){
-        PageBean pageBean = serviceDoctor.page(currentPage,pageSize);
-        return Result.success(pageBean);
+    public EntityResult list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "5") Integer pageSize){
+        EntityPageBean entityPageBean = serviceDoctor.page(currentPage,pageSize);
+        return EntityResult.success(entityPageBean);
     }
 
     /**
@@ -39,9 +63,9 @@ public class ControllerDoctor {
      * @return
      */
     @GetMapping("/{id}")
-    public Result getById(@PathVariable Integer id){
-        Doctor doctor = serviceDoctor.getById(id);
-        return Result.success(doctor);
+    public EntityResult getById(@PathVariable Integer id){
+        EntityDoctor doctor = serviceDoctor.getById(id);
+        return EntityResult.success(doctor);
     }
 
 

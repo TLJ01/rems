@@ -1,4 +1,4 @@
-package com.tan.pojo;
+package com.tan.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("doctor_info")
-public class Doctor {
+public class EntityDoctor {
     @TableId(type = IdType.AUTO)
     private Integer id; // 医生ID
     private String username; // 医生登录用户名

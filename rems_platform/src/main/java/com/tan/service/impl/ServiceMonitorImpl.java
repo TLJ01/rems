@@ -3,9 +3,8 @@ package com.tan.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tan.mapper.MapperMonitor;
-import com.tan.pojo.Doctor;
-import com.tan.pojo.MonitorData;
-import com.tan.pojo.PageBean;
+import com.tan.entity.EntityMonitorData;
+import com.tan.entity.EntityPageBean;
 import com.tan.service.ServiceMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +24,9 @@ public class ServiceMonitorImpl implements ServiceMonitor {
      * @return
      */
     @Override
-    public PageBean<MonitorData> page(Integer currentPage, Integer pageSize) {
-        IPage<MonitorData> page = new Page<>(currentPage, pageSize);
+    public EntityPageBean<EntityMonitorData> page(Integer currentPage, Integer pageSize) {
+        IPage<EntityMonitorData> page = new Page<>(currentPage, pageSize);
         mapperMonitor.selectPage(page,null);
-        return new PageBean(page.getTotal(),page.getRecords());
+        return new EntityPageBean(page.getTotal(),page.getRecords());
     }
 }

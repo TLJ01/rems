@@ -1,4 +1,4 @@
-package com.tan.pojo;
+package com.tan.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageBean<T> {
+public class EntityPageBean<T> {
 
     private Long total;//总数
     private List<T> raws;//数据

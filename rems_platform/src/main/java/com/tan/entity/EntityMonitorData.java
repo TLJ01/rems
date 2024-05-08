@@ -1,4 +1,4 @@
-package com.tan.pojo;
+package com.tan.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("patient_monitoring_data")
-public class MonitorData {
+public class EntityMonitorData {
 
     @TableId(type = IdType.AUTO)
     private Integer id; // 数据ID

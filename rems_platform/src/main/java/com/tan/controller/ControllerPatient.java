@@ -2,9 +2,9 @@ package com.tan.controller;
 
 import com.tan.dto.DtoPatientSave;
 import com.tan.dto.DtoPatientUpdate;
-import com.tan.pojo.PageBean;
-import com.tan.pojo.Patient;
-import com.tan.pojo.Result;
+import com.tan.entity.EntityPageBean;
+import com.tan.entity.EntityPatient;
+import com.tan.entity.EntityResult;
 import com.tan.service.ServicePatient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +30,9 @@ public class ControllerPatient {
      * @return
      */
     @GetMapping("/list")
-    public Result list(@RequestParam(defaultValue = "1") Integer currentPage,@RequestParam(defaultValue = "10") Integer pageSize){
-        PageBean<Patient> pageBean = servicePatient.page(currentPage,pageSize);
-        return Result.success(pageBean);
+    public EntityResult list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer pageSize){
+        EntityPageBean<EntityPatient> entityPageBean = servicePatient.page(currentPage,pageSize);
+        return EntityResult.success(entityPageBean);
     }
 
     /**
@@ -41,9 +41,9 @@ public class ControllerPatient {
      * @return
      */
     @GetMapping("/{id}")
-    public Result getById(@PathVariable Integer id){
-        Patient patient = servicePatient.getById(id);
-        return Result.success(patient);
+    public EntityResult getById(@PathVariable Integer id){
+        EntityPatient patient = servicePatient.getById(id);
+        return EntityResult.success(patient);
     }
 
     /**
@@ -52,9 +52,9 @@ public class ControllerPatient {
      * @return
      */
     @GetMapping("/key")
-    public Result getByNameOrCategory(String key){
-        List<Patient> list = servicePatient.getByNameOrCategory(key);
-        return Result.success(list);
+    public EntityResult getByNameOrCategory(String key){
+        List<EntityPatient> list = servicePatient.getByNameOrCategory(key);
+        return EntityResult.success(list);
     }
 
     /**
@@ -63,9 +63,9 @@ public class ControllerPatient {
      * @return
      */
     @DeleteMapping("/{id}")
-    public Result deleteById(@PathVariable Integer id){
+    public EntityResult deleteById(@PathVariable Integer id){
         servicePatient.deleteById(id);
-        return Result.success();
+        return EntityResult.success();
     }
 
 
@@ -75,9 +75,9 @@ public class ControllerPatient {
      * @return
      */
     @PostMapping("/save")
-    public Result save(@RequestBody DtoPatientSave dtoPatient){
+    public EntityResult save(@RequestBody DtoPatientSave dtoPatient){
         servicePatient.save(dtoPatient);
-        return Result.success();
+        return EntityResult.success();
     }
 
     /**
@@ -86,9 +86,9 @@ public class ControllerPatient {
      * @return
      */
     @PutMapping("/update")
-    public Result update(@RequestBody DtoPatientUpdate dtoPatient){
+    public EntityResult update(@RequestBody DtoPatientUpdate dtoPatient){
         servicePatient.update(dtoPatient);
-        return Result.success();
+        return EntityResult.success();
     }
 
 

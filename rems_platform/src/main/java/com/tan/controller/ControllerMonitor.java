@@ -1,8 +1,8 @@
 package com.tan.controller;
 
-import com.tan.pojo.MonitorData;
-import com.tan.pojo.PageBean;
-import com.tan.pojo.Result;
+import com.tan.entity.EntityMonitorData;
+import com.tan.entity.EntityPageBean;
+import com.tan.entity.EntityResult;
 import com.tan.service.ServiceMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,9 +33,9 @@ public class ControllerMonitor {
      * @return
      */
     @GetMapping
-    public Result list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer pageSize){
-        PageBean<MonitorData> datas = serviceMonitor.page(currentPage,pageSize);
-        return Result.success(datas);
+    public EntityResult list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer pageSize){
+        EntityPageBean<EntityMonitorData> datas = serviceMonitor.page(currentPage,pageSize);
+        return EntityResult.success(datas);
     }
 
 }
