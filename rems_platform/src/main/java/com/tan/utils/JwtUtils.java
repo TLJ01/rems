@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class JwtUtils {
 
-    private static String signKey = "itheima";//密钥
-    private static Long expire = 43200000L;
+    private static String signKey = "always";//密钥
+    private static Long expire = 43200000L;//12个小时
 
     /**
      * 生成JWT令牌

@@ -45,6 +45,11 @@ public class ControllerDoctor {
     }
 
 
+//    @GetMapping("/logout")
+//    public EntityResult logout(){
+//
+//    }
+
     /**
      * 获取医生列表
      * @param currentPage

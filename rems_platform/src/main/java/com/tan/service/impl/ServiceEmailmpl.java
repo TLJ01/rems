@@ -1,15 +1,16 @@
 package com.tan.service.impl;
 
+import cn.hutool.core.util.RandomUtil;
 import com.tan.entity.EntityResult;
 import com.tan.service.ServiceEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by TanLiangJie
@@ -17,6 +18,9 @@ import java.util.Random;
  */
 @Service
 public class ServiceEmailmpl implements ServiceEmail {
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Autowired(required = false)
     private JavaMailSender sender; // 引入Spring Mail依赖后，会自动装配到IOC容器。用来发送邮件
@@ -33,16 +37,15 @@ public class ServiceEmailmpl implements ServiceEmail {
 
         try{
             // 生成 6 位数字验证码
-            Random random = new Random();
-            String code = random.nextInt(8999) + 1000+"";// 验证码
-            // 当前时间
-            LocalDateTime currentTime = LocalDateTime.now();
-
-            //2min有效时间
-            LocalDateTime expireTime = currentTime.plusMinutes(2);
-
-            //存储到session
-            request.getSession().setAttribute("expireTime", expireTime);
+            String code = RandomUtil.randomNumbers(6);
+//            // 当前时间
+//            LocalDateTime currentTime = LocalDateTime.now();
+//
+//            //2min有效时间
+//            LocalDateTime expireTime = currentTime.plusMinutes(2);
+//
+//            //存储到session
+//            request.getSession().setAttribute("expireTime", expireTime);
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("【测试验证码】验证消息"); // 发送邮件的标题
@@ -52,11 +55,14 @@ public class ServiceEmailmpl implements ServiceEmail {
 
             sender.send(message); // 调用send方法发送邮件即可
 
-            //先用的session可以采用security
-            request.getSession().setAttribute("qq",mail);
-            request.getSession().setAttribute("code",code);
-            request.getSession().setAttribute("expireTime",expireTime);
-            request.getSession().setMaxInactiveInterval(60*2);
+//            //先用的session可以采用security
+//            request.getSession().setAttribute("qq",mail);
+//            request.getSession().setAttribute("code",code);
+//            request.getSession().setAttribute("expireTime",expireTime);
+//            request.getSession().setMaxInactiveInterval(60*2);
+
+            stringRedisTemplate.opsForValue().set("login:code:" + mail, code,2L, TimeUnit.MINUTES);
+
             return EntityResult.success("发送成功");
         }
         catch (Exception e){

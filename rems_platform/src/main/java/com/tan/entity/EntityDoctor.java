@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午2:48
@@ -15,9 +17,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("doctor_info")
-public class EntityDoctor {
+public class EntityDoctor implements Serializable {
     @TableId(type = IdType.AUTO)
-    private Integer id; // 医生ID
+    private Long id; // 医生ID
     private String username; // 医生登录用户名
     private String name; // 医生姓名
     private String phone; // 电话

@@ -1,5 +1,7 @@
 package com.tan.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,20 +12,21 @@ import com.tan.mapper.MapperDoctor;
 import com.tan.entity.EntityDoctor;
 import com.tan.entity.EntityPageBean;
 import com.tan.service.ServiceDoctor;
-import com.tan.utils.JwtUtils;
-import com.tan.utils.Md5Util;
-import com.tan.utils.UserThreadLocal;
+import com.tan.utils.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by TanLiangJie
@@ -35,6 +38,10 @@ public class ServiceDoctorImpl implements ServiceDoctor {
 
     @Autowired
     private MapperDoctor mapperDoctor;
+
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 获取医生列表
@@ -79,8 +86,6 @@ public class ServiceDoctorImpl implements ServiceDoctor {
             return EntityResult.error("该用户不存在");
         }
 
-        log.info("rawPassword:{}", user.getPassword());
-        log.info("loginPassword:{}", Md5Util.getMD5String(dtoDoctorLogin.getPassword()));
 
         //存在,校验密码
         if (user.getPassword().equals(Md5Util.getMD5String(dtoDoctorLogin.getPassword()))) {
@@ -92,8 +97,15 @@ public class ServiceDoctorImpl implements ServiceDoctor {
             HashMap<String, String> map = new HashMap<>();
             map.put("token", jwt);
 
-            //将用户信息存入线程中
-            UserThreadLocal.put(user);
+            //将用户信息存入redis;token作为key,用户信息作为value
+            //将UserDto转为map
+            Map<String, Object> userMap = BeanUtil.beanToMap(user, new HashMap<>(),
+                    CopyOptions.create()
+                            .setIgnoreNullValue(true)
+                            .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+
+            stringRedisTemplate.opsForHash().putAll("login:doctor:" + jwt, userMap);
+            stringRedisTemplate.expire("login:doctor:" + jwt, 30L, TimeUnit.MINUTES);
 
             return EntityResult.success(map);
         }
@@ -111,6 +123,12 @@ public class ServiceDoctorImpl implements ServiceDoctor {
      */
     @Override
     public EntityResult register(DtoDoctorRegister dtoDoctorRegister, HttpServletRequest request) {
+
+        //校验邮箱格式
+        if (!EmailUtils.isValidQQEmail(dtoDoctorRegister.getEmail())) {
+            return EntityResult.error("请输入正确的邮箱");
+        }
+
         //查询当前用户名是否已经存在
         //查询该用户是否存在
         LambdaQueryWrapper<EntityDoctor> queryWrapper = new LambdaQueryWrapper<>();
@@ -122,39 +140,27 @@ public class ServiceDoctorImpl implements ServiceDoctor {
         }
 
         //不存在,通过验证码注册
-        String vqq = dtoDoctorRegister.getEmail();
-        String vcode = dtoDoctorRegister.getEmailCode();
-        HttpSession session = request.getSession();
-        //先用的session可以采用security
-        String qq = (String) session.getAttribute("qq");
-        String code = (String) session.getAttribute("code");
-        LocalDateTime expireTime = (LocalDateTime) session.getAttribute("expireTime");
-        LocalDateTime currentTime = LocalDateTime.now();
-        // 检查验证码是否过期
-        if (expireTime != null && currentTime.isBefore(expireTime)) {
-            // 验证码有效，执行相应逻辑
-            // return "验证码过期了！";
-            if (vqq.equals(qq) && vcode.equals(code)) {
+        String loginEmail = dtoDoctorRegister.getEmail();
+        String loginCode = dtoDoctorRegister.getEmailCode();
+        log.info("loginCode:{}", loginCode);
+        //从redis中获取验证码
+        String code = stringRedisTemplate.opsForValue().get("login:code:" + loginEmail);
+        log.info("code:{}", code);
 
+        //判断
+        if (code == null) return EntityResult.error("验证码失效");
+        if (!code.equals(loginCode)) return EntityResult.error("验证码错误");
 
-                //验证成功,存入数据库
-                EntityDoctor entityDoctor = new EntityDoctor();
-                BeanUtils.copyProperties(dtoDoctorRegister, entityDoctor);
-                entityDoctor.setPassword(Md5Util.getMD5String(dtoDoctorRegister.getPassword()));
-                mapperDoctor.insert(entityDoctor);
-                return EntityResult.success("注册成功");
+        //验证码正确,接下来就可已注册用户
+        EntityDoctor entityDoctor = new EntityDoctor();
+        BeanUtils.copyProperties(dtoDoctorRegister, entityDoctor);
+        //加密
+        entityDoctor.setPassword(Md5Util.getMD5String(dtoDoctorRegister.getPassword()));
 
+        //存入数据库
+        mapperDoctor.insert(entityDoctor);
 
-            } else {
-                return EntityResult.success("注册失败");
-            }
-        } else {
-            // 验证码已过期，执行相应逻辑
-            session.removeAttribute("qq");
-            session.removeAttribute("code");
-            return EntityResult.error("验证码已过期");
-
-        }
+        return EntityResult.success("注册成功");
     }
 
 }
