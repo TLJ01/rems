@@ -6,11 +6,11 @@ import com.tan.entity.EntityDoctor;
 import com.tan.entity.EntityPageBean;
 import com.tan.entity.EntityResult;
 import com.tan.service.ServiceDoctor;
+import com.tan.utils.UserThreadLocal;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 /**
  * Created by TanLiangJie
@@ -45,10 +45,24 @@ public class ControllerDoctor {
     }
 
 
-//    @GetMapping("/logout")
-//    public EntityResult logout(){
-//
-//    }
+    /**
+     * 退出登录
+     * @return
+     */
+    @GetMapping("/logout")
+    public EntityResult logout(HttpServletRequest request){
+        return serviceDoctor.logout(request);
+    }
+
+    /**
+     * 可以用来展示右上角当前医生信息之类的
+     * @return
+     */
+    @GetMapping("/index")
+    public EntityResult index(){
+        EntityDoctor entityDoctor = UserThreadLocal.get();
+        return EntityResult.success(entityDoctor);
+    }
 
     /**
      * 获取医生列表

@@ -39,4 +39,10 @@ public interface ServiceDoctor{
      * @return
      */
     EntityResult register(DtoDoctorRegister dtoDoctorRegister, HttpServletRequest request);
+
+    /**
+     * 退出登录
+     * @return
+     */
+    EntityResult logout(HttpServletRequest request);
 }

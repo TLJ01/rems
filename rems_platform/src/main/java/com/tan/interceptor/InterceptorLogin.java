@@ -6,13 +6,14 @@ import com.tan.entity.EntityDoctor;
 import com.tan.utils.UserThreadLocal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import static com.tan.constant.RedisConstants.LOGIN_DOCTOR_KEY;
 
 /**
  * Created by TanLiangJie
@@ -34,17 +35,15 @@ public class InterceptorLogin implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         if (StrUtil.isBlank(token)) {
             response.setStatus(401);
-            System.out.println("-----------111");
             return false;
         }
 
         //基于token获取redis中的对象
-        Map<Object, Object> userMap = stringRedisTemplate.opsForHash().entries("login:doctor:" + token);
+        Map<Object, Object> userMap = stringRedisTemplate.opsForHash().entries(LOGIN_DOCTOR_KEY + token);
 
 
         if (userMap.isEmpty()) {
             response.setStatus(401);
-            System.out.println("-----------222");
             return false;
         }
 
@@ -55,7 +54,7 @@ public class InterceptorLogin implements HandlerInterceptor {
         UserThreadLocal.put(entityDoctor);
 
         //刷新token的有效期
-        stringRedisTemplate.expire( "login:doctor:"+ token, 30L, TimeUnit.MINUTES);
+        stringRedisTemplate.expire( LOGIN_DOCTOR_KEY+ token, 30L, TimeUnit.MINUTES);
         //放行
         return true;
 

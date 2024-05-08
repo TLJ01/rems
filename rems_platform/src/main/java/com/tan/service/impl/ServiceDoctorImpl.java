@@ -14,19 +14,20 @@ import com.tan.entity.EntityPageBean;
 import com.tan.service.ServiceDoctor;
 import com.tan.utils.*;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import static com.tan.constant.RedisConstants.*;
 
 /**
  * Created by TanLiangJie
@@ -98,14 +99,15 @@ public class ServiceDoctorImpl implements ServiceDoctor {
             map.put("token", jwt);
 
             //将用户信息存入redis;token作为key,用户信息作为value
-            //将UserDto转为map
+            //将UserDto转为map-->这种方式可以避免mybatis类型转换错误
+            //StringRedisTemplate中的key,value都是字符串
             Map<String, Object> userMap = BeanUtil.beanToMap(user, new HashMap<>(),
                     CopyOptions.create()
                             .setIgnoreNullValue(true)
                             .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
 
-            stringRedisTemplate.opsForHash().putAll("login:doctor:" + jwt, userMap);
-            stringRedisTemplate.expire("login:doctor:" + jwt, 30L, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForHash().putAll(LOGIN_DOCTOR_KEY + jwt, userMap);
+            stringRedisTemplate.expire(LOGIN_DOCTOR_KEY + jwt, 30L, TimeUnit.MINUTES);
 
             return EntityResult.success(map);
         }
@@ -142,10 +144,8 @@ public class ServiceDoctorImpl implements ServiceDoctor {
         //不存在,通过验证码注册
         String loginEmail = dtoDoctorRegister.getEmail();
         String loginCode = dtoDoctorRegister.getEmailCode();
-        log.info("loginCode:{}", loginCode);
         //从redis中获取验证码
-        String code = stringRedisTemplate.opsForValue().get("login:code:" + loginEmail);
-        log.info("code:{}", code);
+        String code = stringRedisTemplate.opsForValue().get(REGISTER_CODE_KEY + loginEmail);
 
         //判断
         if (code == null) return EntityResult.error("验证码失效");
@@ -162,5 +162,30 @@ public class ServiceDoctorImpl implements ServiceDoctor {
 
         return EntityResult.success("注册成功");
     }
+
+
+    /**
+     * 退出登录
+     * @return
+     */
+    @Override
+    public EntityResult logout(HttpServletRequest request) {
+        //获取token
+        String token = request.getHeader("Authorization");
+        //删除redis中的用户信息
+        //stringRedisTemplate.opsForHash().delete(LOGIN_DOCTOR_KEY+token);
+
+        //getRedisTemplate().opsForHash().delete(id.toString());这个方法删除的是Hash中的键值对，并不是整个Hash
+
+
+        stringRedisTemplate.delete(LOGIN_DOCTOR_KEY + token);
+
+        //System.out.println(UserThreadLocal.get());
+        //此时应同时删除UserThreadLocal中的数据
+        UserThreadLocal.remove();
+
+        return EntityResult.success("退出成功");
+    }
+
 
 }

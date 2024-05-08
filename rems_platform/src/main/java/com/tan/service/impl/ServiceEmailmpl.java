@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.tan.constant.RedisConstants.*;
+
 /**
  * Created by TanLiangJie
  * Time:2024/5/8 上午10:44
@@ -38,14 +40,6 @@ public class ServiceEmailmpl implements ServiceEmail {
         try{
             // 生成 6 位数字验证码
             String code = RandomUtil.randomNumbers(6);
-//            // 当前时间
-//            LocalDateTime currentTime = LocalDateTime.now();
-//
-//            //2min有效时间
-//            LocalDateTime expireTime = currentTime.plusMinutes(2);
-//
-//            //存储到session
-//            request.getSession().setAttribute("expireTime", expireTime);
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("【测试验证码】验证消息"); // 发送邮件的标题
@@ -55,13 +49,7 @@ public class ServiceEmailmpl implements ServiceEmail {
 
             sender.send(message); // 调用send方法发送邮件即可
 
-//            //先用的session可以采用security
-//            request.getSession().setAttribute("qq",mail);
-//            request.getSession().setAttribute("code",code);
-//            request.getSession().setAttribute("expireTime",expireTime);
-//            request.getSession().setMaxInactiveInterval(60*2);
-
-            stringRedisTemplate.opsForValue().set("login:code:" + mail, code,2L, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(REGISTER_CODE_KEY + mail, code,2L, TimeUnit.MINUTES);
 
             return EntityResult.success("发送成功");
         }
