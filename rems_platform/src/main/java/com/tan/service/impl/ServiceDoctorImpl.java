@@ -5,6 +5,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.tan.constant.EntityResponseConstants;
 import com.tan.dto.DtoDoctorLogin;
 import com.tan.dto.DtoDoctorRegister;
 import com.tan.entity.EntityResult;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +34,9 @@ import static com.tan.constant.RedisConstants.*;
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午2:46
+ *
+ *
+ * 医生服务层
  */
 @Slf4j
 @Service
@@ -82,9 +87,10 @@ public class ServiceDoctorImpl implements ServiceDoctor {
         LambdaQueryWrapper<EntityDoctor> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(EntityDoctor::getUsername, username);
         EntityDoctor user = mapperDoctor.selectOne(queryWrapper);
+
         //不存在,抛出异常
         if (Objects.isNull(user)) {
-            return EntityResult.error("该用户不存在");
+            return EntityResult.error(EntityResponseConstants.USER_NOT_FOUND);
         }
 
 
@@ -128,7 +134,7 @@ public class ServiceDoctorImpl implements ServiceDoctor {
 
         //校验邮箱格式
         if (!EmailUtils.isValidQQEmail(dtoDoctorRegister.getEmail())) {
-            return EntityResult.error("请输入正确的邮箱");
+            return EntityResult.error(EntityResponseConstants.EMAIL_INVALID);
         }
 
         //查询当前用户名是否已经存在
@@ -138,7 +144,7 @@ public class ServiceDoctorImpl implements ServiceDoctor {
         EntityDoctor user = mapperDoctor.selectOne(queryWrapper);
         //存在,抛出异常
         if (!Objects.isNull(user)) {
-            return EntityResult.error("当前用户名已经存在");
+            return EntityResult.error(EntityResponseConstants.USER_ISEXIST);
         }
 
         //不存在,通过验证码注册
@@ -148,8 +154,8 @@ public class ServiceDoctorImpl implements ServiceDoctor {
         String code = stringRedisTemplate.opsForValue().get(REGISTER_CODE_KEY + loginEmail);
 
         //判断
-        if (code == null) return EntityResult.error("验证码失效");
-        if (!code.equals(loginCode)) return EntityResult.error("验证码错误");
+        if (code == null) return EntityResult.error(EntityResponseConstants.CODE_EXPIRED);
+        if (!code.equals(loginCode)) return EntityResult.error(EntityResponseConstants.CODE_INCORRECT);
 
         //验证码正确,接下来就可已注册用户
         EntityDoctor entityDoctor = new EntityDoctor();
@@ -160,7 +166,7 @@ public class ServiceDoctorImpl implements ServiceDoctor {
         //存入数据库
         mapperDoctor.insert(entityDoctor);
 
-        return EntityResult.success("注册成功");
+        return EntityResult.success(EntityResponseConstants.REGISTER_SUCCESS);
     }
 
 
@@ -184,7 +190,7 @@ public class ServiceDoctorImpl implements ServiceDoctor {
         //此时应同时删除UserThreadLocal中的数据
         UserThreadLocal.remove();
 
-        return EntityResult.success("退出成功");
+        return EntityResult.success(EntityResponseConstants.LOGOUT_SUCCESS);
     }
 
 

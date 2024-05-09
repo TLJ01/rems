@@ -18,6 +18,9 @@ import static com.tan.constant.RedisConstants.LOGIN_DOCTOR_KEY;
 /**
  * Created by TanLiangJie
  * Time:2024/5/8 下午7:03
+ *
+ *
+ * 拦截器
  */
 
 public class InterceptorLogin implements HandlerInterceptor {

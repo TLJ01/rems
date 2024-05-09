@@ -4,6 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ *
+ *
+ * 响应类实体
+ */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

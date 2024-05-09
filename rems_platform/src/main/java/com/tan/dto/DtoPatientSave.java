@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午3:01
+ *
+ * 保存患者的信息
  */
 @Data
 @AllArgsConstructor

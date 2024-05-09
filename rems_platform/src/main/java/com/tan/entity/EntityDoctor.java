@@ -12,6 +12,8 @@ import java.io.Serializable;
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午2:48
+ *
+ * 医生实体
  */
 @Data
 @AllArgsConstructor

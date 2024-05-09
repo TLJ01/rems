@@ -3,6 +3,10 @@ package com.tan.constant;
 /**
  * Created by TanLiangJie
  * Time:2024/5/8 下午8:12
+ *
+ *
+ *
+ * 存入redis的一些常量
  */
 public class RedisConstants {
 

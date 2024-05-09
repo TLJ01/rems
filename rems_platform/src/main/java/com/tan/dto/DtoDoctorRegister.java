@@ -4,6 +4,8 @@ import lombok.Data;
 /**
  * Created by TanLiangJie
  * Time:2024/5/8 上午9:25
+ *
+ * 注册实体
  */
 @Data
 public class DtoDoctorRegister {

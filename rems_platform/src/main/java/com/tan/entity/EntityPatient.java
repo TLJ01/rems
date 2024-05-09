@@ -12,6 +12,8 @@ import java.time.LocalDate;
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午1:29
+ *
+ * 病人实体
  */
 @Data
 @AllArgsConstructor

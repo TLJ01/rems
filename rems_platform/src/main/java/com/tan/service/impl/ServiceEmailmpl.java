@@ -1,6 +1,7 @@
 package com.tan.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import com.tan.constant.EntityResponseConstants;
 import com.tan.entity.EntityResult;
 import com.tan.service.ServiceEmail;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,9 @@ import static com.tan.constant.RedisConstants.*;
 /**
  * Created by TanLiangJie
  * Time:2024/5/8 上午10:44
+ *
+ *
+ * 邮箱验证服务层
  */
 @Service
 public class ServiceEmailmpl implements ServiceEmail {
@@ -51,10 +55,10 @@ public class ServiceEmailmpl implements ServiceEmail {
 
             stringRedisTemplate.opsForValue().set(REGISTER_CODE_KEY + mail, code,2L, TimeUnit.MINUTES);
 
-            return EntityResult.success("发送成功");
+            return EntityResult.success(EntityResponseConstants.SUCCESS);
         }
         catch (Exception e){
-            return EntityResult.error("发送失败");
+            return EntityResult.error(EntityResponseConstants.FAIL);
         }
 
 

@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午4:06
+ *
+ * 检测数据实体
  */
 @Data
 @AllArgsConstructor

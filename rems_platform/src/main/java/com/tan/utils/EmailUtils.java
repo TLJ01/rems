@@ -2,6 +2,10 @@ package com.tan.utils;
 
 import java.util.regex.Pattern;
 
+/**
+ * 邮箱工具类
+ */
+
 public class EmailUtils {
 
     /**

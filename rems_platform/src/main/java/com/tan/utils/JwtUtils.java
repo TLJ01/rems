@@ -6,6 +6,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * jwt工具类
+ */
+
 public class JwtUtils {
 
     private static String signKey = "always";//密钥

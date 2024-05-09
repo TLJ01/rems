@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午1:51
+ *
+ * 分页查询实体
  */
 @Data
 @AllArgsConstructor
