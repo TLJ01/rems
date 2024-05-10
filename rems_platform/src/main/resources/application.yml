@@ -1,14 +1,17 @@
 spring:
+#  数据库
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/rems
     username: root
     password: 123456
+#    邮箱
   mail:
     host: smtp.qq.com
     username: 2914421833@qq.com
     password: asscexjxhgocdfig
     default-encoding: UTF-8
+#    redis
   data:
     redis:
       port: 6379

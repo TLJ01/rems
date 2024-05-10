@@ -32,6 +32,7 @@ public class ControllerMonitor {
      * @param pageSize
      * @return
      */
+
     @GetMapping
     public EntityResult list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer pageSize){
         EntityPageBean<EntityMonitorData> datas = serviceMonitor.page(currentPage,pageSize);

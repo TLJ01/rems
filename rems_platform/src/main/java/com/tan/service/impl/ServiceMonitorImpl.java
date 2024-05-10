@@ -31,4 +31,6 @@ public class ServiceMonitorImpl implements ServiceMonitor {
         mapperMonitor.selectPage(page,null);
         return new EntityPageBean(page.getTotal(),page.getRecords());
     }
+
+
 }

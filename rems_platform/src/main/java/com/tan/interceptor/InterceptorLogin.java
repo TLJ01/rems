@@ -37,8 +37,9 @@ public class InterceptorLogin implements HandlerInterceptor {
         //获取请求头中的token
         String token = request.getHeader("Authorization");
         if (StrUtil.isBlank(token)) {
-            response.setStatus(401);
-            return false;
+//            response.setStatus(401);
+//            return false;
+            throw new RuntimeException("当前未登录");
         }
 
         //基于token获取redis中的对象
@@ -46,8 +47,10 @@ public class InterceptorLogin implements HandlerInterceptor {
 
 
         if (userMap.isEmpty()) {
-            response.setStatus(401);
-            return false;
+            //response.setStatus(401);
+            //response.getWriter().write("当前未登录");
+            throw new RuntimeException("token失效,请重新登录");
+            //return false;
         }
 
         //将查询到的数据转为DTO

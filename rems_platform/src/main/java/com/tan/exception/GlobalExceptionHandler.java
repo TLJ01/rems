@@ -18,8 +18,8 @@ public class GlobalExceptionHandler {
     //处理所有的异常
     @ExceptionHandler(value = Exception.class)
     public EntityResult ex(Exception e) {
-        e.printStackTrace();
-        return EntityResult.error("操作失败,请联系管理员");
+        //e.printStackTrace();
+        return EntityResult.error(e.getMessage());
     }
 
 }
