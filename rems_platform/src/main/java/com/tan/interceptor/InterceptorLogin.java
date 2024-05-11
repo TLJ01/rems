@@ -56,7 +56,7 @@ public class InterceptorLogin implements HandlerInterceptor {
         //将查询到的数据转为DTO
         EntityDoctor entityDoctor = BeanUtil.fillBeanWithMap(userMap, new EntityDoctor(), false);
 
-        //存在,保存用户到线程中
+        //存在,保存用户到线程中---->快速获取用户信息
         UserThreadLocal.put(entityDoctor);
 
         //刷新token的有效期
