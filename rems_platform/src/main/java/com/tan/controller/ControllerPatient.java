@@ -47,7 +47,7 @@ public class ControllerPatient {
     }
 
     /**
-     * 根据病人名字或者病型进行查询
+     * 根据患者名字或者病型进行查询
      * @param key
      * @return
      */

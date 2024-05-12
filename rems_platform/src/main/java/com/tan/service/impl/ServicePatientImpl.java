@@ -37,7 +37,7 @@ public class ServicePatientImpl implements ServicePatient {
 
 
     /**
-     * 获取医生id
+     * 获取医生id---->每位医生查看自己的病人
      * @return
      */
     public Integer getDoctorId(){
@@ -45,7 +45,7 @@ public class ServicePatientImpl implements ServicePatient {
     }
 
     /**
-     * 获取病人列表---->每位医生查看自己的病人
+     * 获取病人列表
      * @return
      */
     @Override
@@ -72,7 +72,9 @@ public class ServicePatientImpl implements ServicePatient {
     @Override
     public EntityResult getById(Integer id) {
         LambdaQueryWrapper<EntityPatient> wrapper = new LambdaQueryWrapper<>();
+
         wrapper.eq(EntityPatient::getDoctorId,getDoctorId());
+
         wrapper.eq(EntityPatient::getId,id);
         return mapperPatient.selectOne(wrapper)==null?EntityResult.error("没有权限"):EntityResult.success(mapperPatient.selectOne(wrapper));
     }
@@ -85,9 +87,12 @@ public class ServicePatientImpl implements ServicePatient {
     @Override
     public List<EntityPatient> getByNameOrCategory(String key) {
         LambdaQueryWrapper<EntityPatient> wrapper = new LambdaQueryWrapper<>();
+
         wrapper.eq(EntityPatient::getIsDeleted,0);
+
+        wrapper.eq(EntityPatient::getDoctorId,getDoctorId());
         //根据名字或者病型进行查询
-        wrapper.like(EntityPatient::getName,key).or().eq(EntityPatient::getCategory,key);
+        wrapper.like(EntityPatient::getName,key).or().like(EntityPatient::getCategory,key);
         return mapperPatient.selectList(wrapper);
     }
 
@@ -100,6 +105,9 @@ public class ServicePatientImpl implements ServicePatient {
         LambdaUpdateWrapper<EntityPatient> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(EntityPatient::getId,id);
         wrapper.set(EntityPatient::getIsDeleted,1);
+
+        wrapper.eq(EntityPatient::getDoctorId,getDoctorId());
+
         mapperPatient.update(wrapper);
     }
 
@@ -124,6 +132,11 @@ public class ServicePatientImpl implements ServicePatient {
 
         EntityPatient patient = new EntityPatient();
         BeanUtils.copyProperties(dtoPatient,patient);
+
+
+        //这里可以插入患者的医生id
+        patient.setDoctorId(getDoctorId());
+
         //这里可以改,预计30天后恢复,根据需求来
         patient.setRecoveryTime(LocalDate.now().plusDays(30));
 
@@ -134,9 +147,12 @@ public class ServicePatientImpl implements ServicePatient {
     /**
      * 更新病人信息
      * @param dtoPatient
+     *
+     * 该操作不需要判断是否是该患者的医生,因为显示出来就一定是,前面已经判断过了
      */
     @Override
     public void update(DtoPatientUpdate dtoPatient) {
+
         EntityPatient patient = new EntityPatient();
         BeanUtils.copyProperties(dtoPatient,patient);
         mapperPatient.updateById(patient);
