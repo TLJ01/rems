@@ -49,6 +49,7 @@ public class ServiceDoctorImpl implements ServiceDoctor {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+
     /**
      * 获取医生列表
      *
@@ -119,7 +120,7 @@ public class ServiceDoctorImpl implements ServiceDoctor {
         }
 
         //密码错误
-        return null;
+        return EntityResult.error(EntityResponseConstants.PASSWORD_INCORRECT);
     }
 
     /**

@@ -10,11 +10,29 @@ import lombok.Data;
 @Data
 public class DtoDoctorRegister {
 
-    private String username; // 医生登录用户名
-    private String name; // 医生姓名
-    private String phone; // 电话
-    private String password; // 登录密码
-    private String email;//邮箱
-    private String emailCode;//邮箱验证码
+    /**
+     * 用户名
+     */
+    private String username;
+    /**
+     * 姓名
+     */
+    private String name;
+    /**
+     * 电话
+     */
+    private String phone;
+    /**
+     * 登录密码
+     */
+    private String password;
+    /**
+     * 邮箱
+     */
+    private String email;
+    /**
+     * 验证码
+     */
+    private String emailCode;
 
 }

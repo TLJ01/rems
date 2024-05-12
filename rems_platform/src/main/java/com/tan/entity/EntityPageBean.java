@@ -17,7 +17,13 @@ import java.util.List;
 @NoArgsConstructor
 public class EntityPageBean<T> {
 
-    private Long total;//总数
-    private List<T> raws;//数据
+    /**
+     * 列表总数
+     */
+    private Long total;
+    /**
+     * 数据
+     */
+    private List<T> raws;
 
 }

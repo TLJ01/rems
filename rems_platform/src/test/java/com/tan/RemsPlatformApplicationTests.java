@@ -23,7 +23,7 @@ class RemsPlatformApplicationTests {
     @Test
     void TestThreadLoaal(){
         EntityDoctor entityDoctor = new EntityDoctor();
-        entityDoctor.setId(1L);
+        entityDoctor.setId(1);
         entityDoctor.setName("always");
         entityDoctor.setUsername("tantan");
         UserThreadLocal.put(entityDoctor);

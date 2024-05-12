@@ -23,10 +23,26 @@ public class EntityMonitorData {
 
     @TableId(type = IdType.AUTO)
     private Integer id; // 数据ID
-    private Integer patientId; // 患者ID
-    private Integer deviceId; // 设备ID
-    private Integer heartRate; // 心率
-    private Double bloodOxygen; // 血氧
+
+    /**
+     * 患者id-->用过患者id查询患者信息
+     */
+    private Integer patientId;
+
+    /**
+     * 设备id
+     */
+    private Integer deviceId;
+
+    /**
+     * 心率
+     */
+    private Integer heartRate;
+
+    /**
+     *血氧
+     */
+    private Double bloodOxygen;
 
     /**
      * 恢复进度,这里用1-10表示
@@ -37,6 +53,6 @@ public class EntityMonitorData {
     /**
      * 隔一段时间检测一次,该怎么做
      */
-    private LocalDateTime measureTime; // 测量时间
+    private LocalDateTime measureTime;
 
 }

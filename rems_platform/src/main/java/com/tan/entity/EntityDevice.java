@@ -1,5 +1,8 @@
 package com.tan.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +16,19 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("device_info")
 public class EntityDevice {
-    private Integer deviceId; // 设备ID
-    private Integer patientId; // 患者ID
-    private Integer isDeleted; // 是否删除-->0未删除  1已删除
+    /**
+     * 设备id
+     */
+    @TableId(type = IdType.AUTO)
+    private Integer deviceId;
+    /**
+     * 患者id
+     */
+    private Integer patientId;
+    /**
+     * 状态,1表示正常,0表示关闭
+     */
+    private Integer status;
 }

@@ -1,6 +1,7 @@
 package com.tan.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,19 @@ import java.io.Serializable;
 @TableName("doctor_info")
 public class EntityDoctor implements Serializable {
     @TableId(type = IdType.AUTO)
-    private Long id; // 医生ID
-    private String username; // 医生登录用户名
-    private String name; // 医生姓名
-    private String phone; // 电话
-    private String password; // 登录密码
+    private Integer id;
+    /**
+     * 医生用户名-->登录
+     */
+    private String username;
+    /**
+     * 姓名
+     */
+    private String name;
+    /**
+     * 电话
+     */
+    private String phone;
+
+    private String password;
 }

@@ -4,6 +4,7 @@ import com.tan.dto.DtoPatientSave;
 import com.tan.dto.DtoPatientUpdate;
 import com.tan.entity.EntityPageBean;
 import com.tan.entity.EntityPatient;
+import com.tan.entity.EntityResult;
 
 import java.util.List;
 
@@ -16,10 +17,11 @@ public interface ServicePatient {
 
     /**
      * 根据id获取病人信息
+     *
      * @param id
      * @return
      */
-    EntityPatient getById(Integer id);
+    EntityResult getById(Integer id);
 
     /**
      * 根据病人名字或者病型进行查询
@@ -36,9 +38,11 @@ public interface ServicePatient {
 
     /**
      * 新增病人
+     *
      * @param dtoPatient
+     * @return
      */
-    void save(DtoPatientSave dtoPatient);
+    EntityResult save(DtoPatientSave dtoPatient);
 
     /**
      * 更新病人信息

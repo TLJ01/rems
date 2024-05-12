@@ -1,6 +1,6 @@
 package com.tan.config;
 
-import com.tan.interceptor.InterceptorLogin;
+import com.tan.interceptor.MyInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,7 +19,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new InterceptorLogin(stringRedisTemplate))
+        registry.addInterceptor(new MyInterceptor(stringRedisTemplate))
                 .excludePathPatterns(
                         "/doctors/login",
                         "/doctors/register",

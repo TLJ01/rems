@@ -1,6 +1,7 @@
 package com.tan.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -22,15 +23,44 @@ import java.time.LocalDate;
 public class EntityPatient {
 
     @TableId(type = IdType.AUTO)
-    private Integer id; // 患者ID
-    private String name; // 患者姓名
-    private String gender; // 性别
-    private Integer age; // 年龄
-    private Double height; // 身高
-    private Double weight; // 体重
-    private String phone; // 电话
-    private String category; // 类别
-    private LocalDate recoveryTime; // 康复时间
+    private Integer id;
+    /**
+     * 姓名
+     */
+    private String name;
+    /**
+     * 性别
+     */
+    private String gender;
+    /**
+     * 年龄
+     */
+    private Integer age;
+    /**
+     * 身高
+     */
+    private Double height;
+    /**
+     * 体重
+     */
+    private Double weight;
+    /**
+     * 电话
+     */
+    private String phone;
+    /**
+     * 类别
+     */
+    private String category;
+    /**
+     * 康复时间
+     */
+    private LocalDate recoveryTime;
+
+    /**
+     * 医生id
+     */
+    private Integer doctorId;
     /**
      * 0代表未删除,1代表已删除
      */

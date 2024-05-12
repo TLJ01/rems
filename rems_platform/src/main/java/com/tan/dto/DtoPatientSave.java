@@ -15,12 +15,33 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DtoPatientSave {
 
-    private String name; // 患者姓名
-    private String gender; // 性别
-    private Integer age; // 年龄
-    private Double height; // 身高
-    private Double weight; // 体重
-    private String phone; // 电话
-    private String category; // 类别
+    /**
+     * 姓名
+     */
+    private String name;
+    /**
+     * 性别
+     */
+    private String gender;
+    /**
+     * 年龄
+     */
+    private Integer age;
+    /**
+     * 身高
+     */
+    private Double height;
+    /**
+     * 体重
+     */
+    private Double weight;
+    /**
+     * 电话
+     */
+    private String phone;
+    /**
+     * 类别
+     */
+    private String category;
 
 }

@@ -6,6 +6,7 @@ import com.tan.entity.EntityPageBean;
 import com.tan.entity.EntityPatient;
 import com.tan.entity.EntityResult;
 import com.tan.service.ServicePatient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * Created by TanLiangJie
  * Time:2024/5/3 下午1:22
  */
+@Slf4j
 @RestController
 @RequestMapping("/patients")
 public class ControllerPatient {
@@ -23,7 +25,6 @@ public class ControllerPatient {
     private ServicePatient servicePatient;
 
     /**
-     * # TODO 这里应该加个判断,让每个医生看到自己的病人
      * 获取病人列表
      * @param currentPage
      * @param pageSize
@@ -42,8 +43,7 @@ public class ControllerPatient {
      */
     @GetMapping("/{id}")
     public EntityResult getById(@PathVariable Integer id){
-        EntityPatient patient = servicePatient.getById(id);
-        return EntityResult.success(patient);
+        return servicePatient.getById(id);
     }
 
     /**
@@ -76,8 +76,7 @@ public class ControllerPatient {
      */
     @PostMapping("/save")
     public EntityResult save(@RequestBody DtoPatientSave dtoPatient){
-        servicePatient.save(dtoPatient);
-        return EntityResult.success();
+        return servicePatient.save(dtoPatient);
     }
 
     /**

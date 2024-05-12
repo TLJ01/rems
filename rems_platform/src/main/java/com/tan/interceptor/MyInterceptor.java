@@ -23,11 +23,11 @@ import static com.tan.constant.RedisConstants.LOGIN_DOCTOR_KEY;
  * 拦截器
  */
 
-public class InterceptorLogin implements HandlerInterceptor {
+public class MyInterceptor implements HandlerInterceptor {
 
     private StringRedisTemplate stringRedisTemplate;
 
-    public InterceptorLogin(StringRedisTemplate stringRedisTemplate) {
+    public MyInterceptor(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
