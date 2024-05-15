@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tan.constant.EntityResponseConstants;
+import com.tan.dto.DtoPatientQuery;
 import com.tan.dto.DtoPatientSave;
 import com.tan.dto.DtoPatientUpdate;
 import com.tan.entity.EntityResult;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Created by TanLiangJie
@@ -49,7 +49,18 @@ public class ServicePatientImpl implements ServicePatient {
      * @return
      */
     @Override
-    public EntityPageBean page(Integer currentPage, Integer pageSize) {
+    public EntityPageBean page(DtoPatientQuery dtoPatientQuery) {
+
+        //获取参数
+        Integer currentPage = dtoPatientQuery.getCurrentPage();
+        Integer pageSize = dtoPatientQuery.getPageSize();
+        String name = dtoPatientQuery.getName();
+        String category = dtoPatientQuery.getCategory();
+
+        //处理参数-->赋初值
+        if (currentPage==0&&pageSize==0){
+            currentPage=1;pageSize=5;
+        }
 
         IPage<EntityPatient> page = new Page<>(currentPage, pageSize);
         //查询条件,isDeleted=0,未被删除的
@@ -58,6 +69,10 @@ public class ServicePatientImpl implements ServicePatient {
 
         //当前医生自己的病人
         wrapper.eq(EntityPatient::getDoctorId,getDoctorId());
+
+        //模糊查询-->根据名字/病型
+        if (category !=null) wrapper.like(EntityPatient::getCategory, category);
+        if (name !=null) wrapper.like(EntityPatient::getName, name);
 
         mapperPatient.selectPage(page, wrapper);
         return new EntityPageBean(page.getTotal(),page.getRecords());
@@ -79,22 +94,6 @@ public class ServicePatientImpl implements ServicePatient {
         return mapperPatient.selectOne(wrapper)==null?EntityResult.error("没有权限"):EntityResult.success(mapperPatient.selectOne(wrapper));
     }
 
-    /**
-     * 根据病人名字或者病型进行查询
-     * @param key
-     * @return
-     */
-    @Override
-    public List<EntityPatient> getByNameOrCategory(String key) {
-        LambdaQueryWrapper<EntityPatient> wrapper = new LambdaQueryWrapper<>();
-
-        wrapper.eq(EntityPatient::getIsDeleted,0);
-
-        wrapper.eq(EntityPatient::getDoctorId,getDoctorId());
-        //根据名字或者病型进行查询
-        wrapper.like(EntityPatient::getName,key).or().like(EntityPatient::getCategory,key);
-        return mapperPatient.selectList(wrapper);
-    }
 
     /**
      * 根据id删除病人信息

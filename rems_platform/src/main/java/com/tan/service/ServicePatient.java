@@ -1,5 +1,6 @@
 package com.tan.service;
 
+import com.tan.dto.DtoPatientQuery;
 import com.tan.dto.DtoPatientSave;
 import com.tan.dto.DtoPatientUpdate;
 import com.tan.entity.EntityPageBean;
@@ -13,7 +14,7 @@ public interface ServicePatient {
      * 获取病人的列表
      * @return
      */
-    EntityPageBean page(Integer currentPage, Integer pageSize);
+    EntityPageBean page(DtoPatientQuery dtoPatientQuery);
 
     /**
      * 根据id获取病人信息
@@ -23,12 +24,6 @@ public interface ServicePatient {
      */
     EntityResult getById(Integer id);
 
-    /**
-     * 根据病人名字或者病型进行查询
-     * @param key
-     * @return
-     */
-    List<EntityPatient> getByNameOrCategory(String key);
 
     /**
      * 根据id删除病人信息

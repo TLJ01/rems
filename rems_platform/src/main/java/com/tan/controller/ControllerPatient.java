@@ -1,5 +1,6 @@
 package com.tan.controller;
 
+import com.tan.dto.DtoPatientQuery;
 import com.tan.dto.DtoPatientSave;
 import com.tan.dto.DtoPatientUpdate;
 import com.tan.entity.EntityPageBean;
@@ -25,14 +26,14 @@ public class ControllerPatient {
     private ServicePatient servicePatient;
 
     /**
-     * 获取病人列表
-     * @param currentPage
-     * @param pageSize
+     * 查询病人信息
+     * @param dtoPatientQuery
      * @return
      */
-    @GetMapping("/list")
-    public EntityResult list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer pageSize){
-        EntityPageBean<EntityPatient> entityPageBean = servicePatient.page(currentPage,pageSize);
+    @GetMapping("/page")
+    public EntityResult list(DtoPatientQuery dtoPatientQuery){
+
+        EntityPageBean<EntityPatient> entityPageBean = servicePatient.page(dtoPatientQuery);
         return EntityResult.success(entityPageBean);
     }
 
@@ -46,16 +47,6 @@ public class ControllerPatient {
         return servicePatient.getById(id);
     }
 
-    /**
-     * 根据患者名字或者病型进行查询
-     * @param key
-     * @return
-     */
-    @GetMapping("/key")
-    public EntityResult getByNameOrCategory(String key){
-        List<EntityPatient> list = servicePatient.getByNameOrCategory(key);
-        return EntityResult.success(list);
-    }
 
     /**
      * 根据id删除病人信息-->针对已经康复的人,逻辑删除就行,即更新is_deleted
@@ -89,7 +80,6 @@ public class ControllerPatient {
         servicePatient.update(dtoPatient);
         return EntityResult.success();
     }
-
 
 
 
