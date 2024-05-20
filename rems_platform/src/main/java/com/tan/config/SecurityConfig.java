@@ -21,7 +21,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new MyInterceptor(stringRedisTemplate))
                 .excludePathPatterns(
-                        "/doctors/login",
+                        "/api/doctors/login",
                         "/doctors/register",
                         "/email/send"
                 );

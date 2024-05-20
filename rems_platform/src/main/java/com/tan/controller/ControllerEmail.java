@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Time:2024/5/8 上午10:31
  */
 @RestController
-@RequestMapping("/email")
+@RequestMapping("/api/email")
 public class ControllerEmail {
 
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * Time:2024/5/3 下午2:45
  */
 @RestController
-@RequestMapping("/doctors")
+@RequestMapping("/api/doctors")
 public class ControllerDoctor {
 
     @Autowired

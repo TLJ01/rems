@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/api/patients")
 public class ControllerPatient {
 
     @Autowired

@@ -8,7 +8,9 @@ import com.tan.constant.EntityResponseConstants;
 import com.tan.dto.DtoPatientQuery;
 import com.tan.dto.DtoPatientSave;
 import com.tan.dto.DtoPatientUpdate;
+import com.tan.entity.EntityDevice;
 import com.tan.entity.EntityResult;
+import com.tan.mapper.MapperDevice;
 import com.tan.mapper.MapperPatient;
 import com.tan.entity.EntityPageBean;
 import com.tan.entity.EntityPatient;
@@ -34,6 +36,10 @@ public class ServicePatientImpl implements ServicePatient {
 
     @Autowired
     private MapperPatient mapperPatient;
+
+    @Autowired
+    private MapperDevice mapperDevice;
+
 
 
     /**
@@ -138,8 +144,18 @@ public class ServicePatientImpl implements ServicePatient {
 
         //这里可以改,预计30天后恢复,根据需求来
         patient.setRecoveryTime(LocalDate.now().plusDays(30));
-
+        //插入患者数据
         mapperPatient.insert(patient);
+
+        //获取患者id
+        Integer patientId = patient.getId();
+
+        //存入设备中
+        //构造device实体对象
+        EntityDevice device = EntityDevice.builder()
+                .patientId(patientId).status(0).build();
+        mapperDevice.insert(device);
+
         return EntityResult.success(EntityResponseConstants.SUCCESS);
     }
 

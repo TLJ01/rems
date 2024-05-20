@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/monitors")
+@RequestMapping("/api/monitors")
 public class ControllerMonitor {
 
     @Autowired

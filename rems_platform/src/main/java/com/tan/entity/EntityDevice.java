@@ -4,15 +4,16 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午3:51
- *
  * 设备实体
  */
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
