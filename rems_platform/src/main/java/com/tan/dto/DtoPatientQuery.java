@@ -19,10 +19,16 @@ public class DtoPatientQuery {
      */
     private String name;
 
+
     /**
      * 类型
      */
     private String category;
+
+    /**
+     * 医生id
+     */
+    private Integer doctorId;
 
     /**
      * 当前页

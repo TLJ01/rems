@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageHelper;
 import com.tan.constant.EntityResponseConstants;
 import com.tan.dto.DtoPatientQuery;
 import com.tan.dto.DtoPatientSave;
@@ -16,17 +17,20 @@ import com.tan.entity.EntityPageBean;
 import com.tan.entity.EntityPatient;
 import com.tan.service.ServicePatient;
 import com.tan.utils.UserThreadLocal;
+import com.tan.vo.VoPatient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午1:48
- *
  *
  * 患者服务层
  */
@@ -57,16 +61,13 @@ public class ServicePatientImpl implements ServicePatient {
     @Override
     public EntityPageBean page(DtoPatientQuery dtoPatientQuery) {
 
-        //获取参数
+
         Integer currentPage = dtoPatientQuery.getCurrentPage();
         Integer pageSize = dtoPatientQuery.getPageSize();
-        String name = dtoPatientQuery.getName();
+        if (currentPage==0)currentPage=1;
+        if (pageSize==0)pageSize=10;
         String category = dtoPatientQuery.getCategory();
-
-        //处理参数-->赋初值
-        if (currentPage==0&&pageSize==0){
-            currentPage=1;pageSize=5;
-        }
+        String name = dtoPatientQuery.getName();
 
         IPage<EntityPatient> page = new Page<>(currentPage, pageSize);
         //查询条件,isDeleted=0,未被删除的
@@ -81,7 +82,10 @@ public class ServicePatientImpl implements ServicePatient {
         if (name !=null) wrapper.like(EntityPatient::getName, name);
 
         mapperPatient.selectPage(page, wrapper);
+
         return new EntityPageBean(page.getTotal(),page.getRecords());
+
+
     }
 
     /**
@@ -118,12 +122,11 @@ public class ServicePatientImpl implements ServicePatient {
 
     /**
      * 新增病人
-     *
      * @param dtoPatient
      * @return
      */
     @Override
-    public EntityResult save(DtoPatientSave dtoPatient) {
+    public EntityResult save(@RequestBody DtoPatientSave dtoPatient) {
         /**
          * 这里如果用户姓名已存在,就会返回一些异常信息,手动处理一下
          */
@@ -134,28 +137,21 @@ public class ServicePatientImpl implements ServicePatient {
         if (entityPatient != null) {
             return EntityResult.error(EntityResponseConstants.USER_ISEXIST);
         }
-
         EntityPatient patient = new EntityPatient();
         BeanUtils.copyProperties(dtoPatient,patient);
-
-
         //这里可以插入患者的医生id
         patient.setDoctorId(getDoctorId());
-
         //这里可以改,预计30天后恢复,根据需求来
         patient.setRecoveryTime(LocalDate.now().plusDays(30));
         //插入患者数据
         mapperPatient.insert(patient);
-
         //获取患者id
         Integer patientId = patient.getId();
-
         //存入设备中
         //构造device实体对象
         EntityDevice device = EntityDevice.builder()
                 .patientId(patientId).status(0).build();
         mapperDevice.insert(device);
-
         return EntityResult.success(EntityResponseConstants.SUCCESS);
     }
 

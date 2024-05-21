@@ -102,6 +102,12 @@
 <!--            <artifactId>knife4j-spring-boot-starter</artifactId>-->
 <!--        </dependency>-->
 
+<!--        查询患者的时候，把设备状态也查出来-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.4.2</version>
+        </dependency>
 
 
     </dependencies>

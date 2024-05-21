@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tan.mapper.MapperPatient">
+
+<!--    <select id="pageQuery" resultType="com.tan.entity.EntityPatient">-->
+<!--        select p.*,d.status status from patient_info p left join device_info d on p.id=d.patient_id-->
+<!--        <where>-->
+<!--            is_deleted=0-->
+<!--            <if test="doctorId!=null">and doctor_id=#{doctorId}</if>-->
+<!--            <if test="category!=null">and category like concat('%',#{category},'%')</if>-->
+<!--            <if test="name!=null">and name like concat('%',#{name},'%')</if>-->
+<!--        </where>-->
+<!--    </select>-->
+</mapper>
