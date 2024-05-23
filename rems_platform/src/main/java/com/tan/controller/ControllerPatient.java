@@ -7,12 +7,11 @@ import com.tan.entity.EntityPageBean;
 import com.tan.entity.EntityPatient;
 import com.tan.entity.EntityResult;
 import com.tan.service.ServicePatient;
-import com.tan.vo.VoPatient;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 /**
  * Created by TanLiangJie

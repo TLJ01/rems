@@ -1,7 +1,5 @@
 package com.tan;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.pagehelper.PageHelper;
 import com.tan.dto.DtoPatientQuery;
 import com.tan.entity.EntityDoctor;
 import com.tan.mapper.MapperPatient;
@@ -9,7 +7,6 @@ import com.tan.utils.EmailUtils;
 import com.tan.utils.Md5Util;
 import com.tan.utils.RedisCache;
 import com.tan.utils.UserThreadLocal;
-import com.tan.vo.VoPatient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

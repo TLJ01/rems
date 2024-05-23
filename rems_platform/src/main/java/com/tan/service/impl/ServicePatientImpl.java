@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.pagehelper.PageHelper;
 import com.tan.constant.EntityResponseConstants;
 import com.tan.dto.DtoPatientQuery;
 import com.tan.dto.DtoPatientSave;
@@ -17,7 +16,6 @@ import com.tan.entity.EntityPageBean;
 import com.tan.entity.EntityPatient;
 import com.tan.service.ServicePatient;
 import com.tan.utils.UserThreadLocal;
-import com.tan.vo.VoPatient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by TanLiangJie
@@ -114,9 +110,7 @@ public class ServicePatientImpl implements ServicePatient {
         LambdaUpdateWrapper<EntityPatient> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(EntityPatient::getId,id);
         wrapper.set(EntityPatient::getIsDeleted,1);
-
         wrapper.eq(EntityPatient::getDoctorId,getDoctorId());
-
         mapperPatient.update(wrapper);
     }
 
