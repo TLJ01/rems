@@ -3,11 +3,13 @@ package com.tan.service.impl;
 import com.google.gson.Gson;
 import com.tan.dto.DeviceData;
 import com.tan.dto.DevicePropertyV5;
-import com.tan.dto.PhysicalData;
+import com.tan.entity.EntityDevice;
+import com.tan.entity.EntityMonitorData;
 import com.tan.mapper.MapperIot;
 import com.tan.service.ServiceIot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -17,6 +19,7 @@ import java.util.Map;
  * Time:2024/5/22 下午1:03
  */
 @Service
+@Transactional()
 public class ServiceIotImpl implements ServiceIot {
 
     @Autowired
@@ -44,14 +47,14 @@ public class ServiceIotImpl implements ServiceIot {
         //获取数据
         for (DevicePropertyV5 service : deviceData.getNotify_data().getBody().getServices()) {
             Integer heartRate = service.getProperties().getHeartRate();
-            Integer bloodOxygen = service.getProperties().getBloodOxygen();
-            PhysicalData physicalData = new PhysicalData();
-            physicalData.setDeviceId(deviceId);
-            physicalData.setHeartRate(heartRate);
-            physicalData.setBloodOxygen(bloodOxygen);
-            physicalData.setUpdateTime(LocalDateTime.now());
-            physicalData.setPatientId("test111");
-            mapperIot.insert(physicalData);
+            Double bloodOxygen = service.getProperties().getBloodOxygen();
+            EntityMonitorData entityMonitorData = new EntityMonitorData();
+            entityMonitorData.setDeviceId(deviceId);
+            entityMonitorData.setHeartRate(heartRate);
+            entityMonitorData.setBloodOxygen(bloodOxygen);
+            entityMonitorData.setMeasureTime(LocalDateTime.now());
+            entityMonitorData.setPatientId(1);
+            mapperIot.insert(entityMonitorData);
         }
 
     }

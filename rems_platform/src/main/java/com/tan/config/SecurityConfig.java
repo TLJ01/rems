@@ -23,7 +23,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/api/doctors/login",
                         "/doctors/register",
-                        "/email/send"
+                        "/email/send",
+                        "/api/iot/*"
                 );
     }
 

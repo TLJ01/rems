@@ -22,7 +22,7 @@ public class DeviceProperties {
     /**
      * 血氧
      */
-    private Integer bloodOxygen;
+    private Double bloodOxygen;
 
 
 }

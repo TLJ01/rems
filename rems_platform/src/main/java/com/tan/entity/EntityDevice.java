@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by TanLiangJie
  * Time:2024/5/3 下午3:51
@@ -19,17 +21,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("device_info")
 public class EntityDevice {
+
+
+    /**
+     * id
+     */
+    @TableId(type = IdType.AUTO)
+    private Integer id;
+
     /**
      * 设备id
      */
-    @TableId(type = IdType.AUTO)
-    private Integer deviceId;
+    private String deviceId;
+
     /**
      * 患者id
      */
-    private Integer patientId;
+    private String patientId;
+
     /**
-     * 状态,1表示正常,0表示关闭
+     * 设备状态
+     * 1在线
+     * 0不在线
      */
     private Integer status;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+
 }

@@ -1,9 +1,8 @@
 package com.tan.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tan.dto.DeviceData;
-import com.tan.dto.PhysicalData;
+import com.tan.entity.EntityMonitorData;
 
-public interface MapperIot extends BaseMapper<PhysicalData> {
+public interface MapperIot extends BaseMapper<EntityMonitorData> {
 
 }

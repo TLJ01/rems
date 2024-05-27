@@ -21,8 +21,6 @@ public class ControllerIot {
 
     @Autowired
     private ServiceIot serviceIot;
-
-
     /**
      * 接收存储数据
      * @param map

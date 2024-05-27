@@ -89,4 +89,10 @@ class RemsPlatformApplicationTests {
 //        Page<VoPatient> page = mapperPatient.pageQuery(doctorId, category, name);
 //        System.out.println(page.getTotal());
     }
+
+
+    @Test
+    void PasswordTest(){
+        System.out.println(Md5Util.getMD5String("123456"));
+    }
 }

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("patient_monitoring_data")
+@TableName("monitor_data")
 public class EntityMonitorData {
 
     @TableId(type = IdType.AUTO)
@@ -32,7 +32,7 @@ public class EntityMonitorData {
     /**
      * 设备id
      */
-    private Integer deviceId;
+    private String deviceId;
 
     /**
      * 心率
@@ -47,7 +47,7 @@ public class EntityMonitorData {
     /**
      * 恢复进度,这里用1-10表示
      */
-    private Integer recoverStatus;
+    private Integer recover;
 
 
     /**

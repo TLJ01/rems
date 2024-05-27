@@ -61,7 +61,7 @@ public class ServicePatientImpl implements ServicePatient {
         Integer currentPage = dtoPatientQuery.getCurrentPage();
         Integer pageSize = dtoPatientQuery.getPageSize();
         if (currentPage==0)currentPage=1;
-        if (pageSize==0)pageSize=10;
+        if (pageSize==0)pageSize=5;
         String category = dtoPatientQuery.getCategory();
         String name = dtoPatientQuery.getName();
 
@@ -143,9 +143,9 @@ public class ServicePatientImpl implements ServicePatient {
         Integer patientId = patient.getId();
         //存入设备中
         //构造device实体对象
-        EntityDevice device = EntityDevice.builder()
-                .patientId(patientId).status(0).build();
-        mapperDevice.insert(device);
+        //EntityDevice device = EntityDevice.builder()
+                //.patientId(patientId).status(0).build();
+        //mapperDevice.insert(device);
         return EntityResult.success(EntityResponseConstants.SUCCESS);
     }
 
