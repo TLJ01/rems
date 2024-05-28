@@ -2,16 +2,18 @@ package com.tan.controller;
 
 import com.google.gson.Gson;
 import com.tan.dto.DeviceData;
+import com.tan.dto.DeviceProperties;
 import com.tan.dto.DevicePropertyV5;
+import com.tan.dto.DtoMonitorQuery;
 import com.tan.entity.EntityResult;
 import com.tan.service.ServiceIot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -35,4 +37,23 @@ public class ControllerIot {
         serviceIot.save(map);
         return EntityResult.success();
     }
+
+    /**
+     * 获取检测数据
+     * 晚上10点到早上6点
+     * 15分钟一次
+     * 30次左右
+     * @return
+     */
+//    @GetMapping("/list")
+//    public EntityResult list(@RequestBody DtoMonitorQuery dtoMonitorQuery){
+//        return EntityResult.success(serviceIot.list(dtoMonitorQuery));
+//    }
+
+    @GetMapping("/list")
+    public EntityResult list(@RequestParam String deviceId,String startTime,String endTime){
+
+        return EntityResult.success(serviceIot.list(deviceId,startTime,endTime));
+    }
+
 }
