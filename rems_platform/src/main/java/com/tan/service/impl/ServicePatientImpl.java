@@ -20,9 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Created by TanLiangJie
@@ -120,6 +122,7 @@ public class ServicePatientImpl implements ServicePatient {
      * @return
      */
     @Override
+    @Transactional
     public EntityResult save(@RequestBody DtoPatientSave dtoPatient) {
         /**
          * 这里如果用户姓名已存在,就会返回一些异常信息,手动处理一下
@@ -131,6 +134,7 @@ public class ServicePatientImpl implements ServicePatient {
         if (entityPatient != null) {
             return EntityResult.error(EntityResponseConstants.USER_ISEXIST);
         }
+
         EntityPatient patient = new EntityPatient();
         BeanUtils.copyProperties(dtoPatient,patient);
         //这里可以插入患者的医生id
@@ -139,13 +143,23 @@ public class ServicePatientImpl implements ServicePatient {
         patient.setRecoveryTime(LocalDate.now().plusDays(30));
         //插入患者数据
         mapperPatient.insert(patient);
+
+
+        /**
+         * mp插入成功后就能获取到患者id
+         * 然后插入设备
+         */
         //获取患者id
         Integer patientId = patient.getId();
         //存入设备中
         //构造device实体对象
-        //EntityDevice device = EntityDevice.builder()
-                //.patientId(patientId).status(0).build();
-        //mapperDevice.insert(device);
+        EntityDevice device = EntityDevice.builder()
+                .patientId(patientId)
+                .status(0)
+                .updateTime(LocalDateTime.now())
+                .deviceId(dtoPatient.getDeviceId())
+                .build();
+        mapperDevice.insert(device);
         return EntityResult.success(EntityResponseConstants.SUCCESS);
     }
 

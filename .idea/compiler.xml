@@ -10,10 +10,13 @@
         <module name="rems_platform" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="iot-data-handler" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="iot-data-handler" options="-parameters" />
       <module name="rems_platform" options="-parameters" />
     </option>
   </component>

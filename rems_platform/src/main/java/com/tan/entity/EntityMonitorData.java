@@ -47,7 +47,7 @@ public class EntityMonitorData {
     /**
      * 恢复进度,这里用1-10表示
      */
-    private Integer recover;
+    //private Integer recover;
 
 
     /**

@@ -28,6 +28,9 @@ public class ControllerIot {
      */
     @PostMapping("/deviceData")
     public EntityResult receiveDeviceData(@RequestBody Map map) {
+
+        log.info("数据:{}",map);
+
         //存入数据
         serviceIot.save(map);
         return EntityResult.success();

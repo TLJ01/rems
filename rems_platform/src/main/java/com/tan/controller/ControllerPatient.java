@@ -67,6 +67,7 @@ public class ControllerPatient {
      */
     @PostMapping("/save")
     public EntityResult save(@RequestBody DtoPatientSave dtoPatient){
+        //添加设备
         return servicePatient.save(dtoPatient);
     }
 

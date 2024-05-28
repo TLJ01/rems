@@ -27,4 +27,8 @@ public class ControllerDevice {
 //
 //    }
 
+    /**
+     * 添加设备
+     */
+
 }

@@ -44,4 +44,9 @@ public class DtoPatientSave {
      */
     private String category;
 
+    /**
+     * 需要绑定的设备id
+     */
+    private String deviceId;
+
 }

@@ -37,7 +37,7 @@ public class EntityDevice {
     /**
      * 患者id
      */
-    private String patientId;
+    private Integer patientId;
 
     /**
      * 设备状态

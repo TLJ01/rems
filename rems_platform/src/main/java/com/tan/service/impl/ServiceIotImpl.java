@@ -19,7 +19,6 @@ import java.util.Map;
  * Time:2024/5/22 下午1:03
  */
 @Service
-@Transactional()
 public class ServiceIotImpl implements ServiceIot {
 
     @Autowired
