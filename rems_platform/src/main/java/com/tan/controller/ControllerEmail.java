@@ -1,5 +1,6 @@
 package com.tan.controller;
 
+import cn.hutool.Hutool;
 import com.tan.entity.EntityResult;
 import com.tan.service.ServiceEmail;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ public class ControllerEmail {
      */
     @PostMapping("/send")
     public EntityResult test1(String mail, HttpServletRequest request){
+
         return serviceEmail.send(mail,request);
     }
 

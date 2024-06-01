@@ -8,6 +8,7 @@ import com.tan.entity.EntityResult;
 import com.tan.service.ServiceDoctor;
 import com.tan.utils.UserThreadLocal;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by TanLiangJie
  * Time:2024/5/3 下午2:45
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/doctors")
 public class ControllerDoctor {
@@ -27,12 +29,18 @@ public class ControllerDoctor {
 
     /**
      * 登录
-     * @param dtoDoctorLogin
+     * @param //dtoDoctorLogin
      * @return
      */
+//    @PostMapping("/login")
+//    public EntityResult login(@RequestBody DtoDoctorLogin dtoDoctorLogin){
+//        return serviceDoctor.login(dtoDoctorLogin);
+//    }
     @PostMapping("/login")
-    public EntityResult login(@RequestBody DtoDoctorLogin dtoDoctorLogin){
-        return serviceDoctor.login(dtoDoctorLogin);
+    public EntityResult login(String username,String password){
+        EntityResult result = serviceDoctor.login(username, password);
+        log.info("返回数据：{}",result);
+        return result;
     }
 
 

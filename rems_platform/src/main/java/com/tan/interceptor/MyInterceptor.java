@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -57,6 +56,7 @@ public class MyInterceptor implements HandlerInterceptor {
         EntityDoctor entityDoctor = BeanUtil.fillBeanWithMap(userMap, new EntityDoctor(), false);
 
         //存在,保存用户到线程中---->快速获取用户信息
+        //因为每次请求都是一个不同的线程,所以需要在拦截添加信息
         UserThreadLocal.put(entityDoctor);
 
         //刷新token的有效期

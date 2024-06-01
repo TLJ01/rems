@@ -35,6 +35,8 @@ public class EntityDoctor implements Serializable {
      * 电话
      */
     private String phone;
-
+    /**
+     * 密码
+     */
     private String password;
 }

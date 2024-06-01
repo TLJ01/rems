@@ -5,7 +5,6 @@ import com.tan.dto.DeviceProperties;
 import com.tan.entity.EntityMonitorData;
 import org.apache.ibatis.annotations.Select;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MapperIot extends BaseMapper<EntityMonitorData> {

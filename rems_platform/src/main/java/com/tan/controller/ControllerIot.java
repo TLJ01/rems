@@ -1,19 +1,11 @@
 package com.tan.controller;
 
-import com.google.gson.Gson;
-import com.tan.dto.DeviceData;
-import com.tan.dto.DeviceProperties;
-import com.tan.dto.DevicePropertyV5;
-import com.tan.dto.DtoMonitorQuery;
 import com.tan.entity.EntityResult;
 import com.tan.service.ServiceIot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -30,9 +22,7 @@ public class ControllerIot {
      */
     @PostMapping("/deviceData")
     public EntityResult receiveDeviceData(@RequestBody Map map) {
-
         log.info("数据:{}",map);
-
         //存入数据
         serviceIot.save(map);
         return EntityResult.success();
@@ -49,11 +39,8 @@ public class ControllerIot {
 //    public EntityResult list(@RequestBody DtoMonitorQuery dtoMonitorQuery){
 //        return EntityResult.success(serviceIot.list(dtoMonitorQuery));
 //    }
-
     @GetMapping("/list")
     public EntityResult list(@RequestParam String deviceId,String startTime,String endTime){
-
         return EntityResult.success(serviceIot.list(deviceId,startTime,endTime));
     }
-
 }

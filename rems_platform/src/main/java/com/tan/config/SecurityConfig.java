@@ -22,9 +22,10 @@ public class SecurityConfig implements WebMvcConfigurer {
         registry.addInterceptor(new MyInterceptor(stringRedisTemplate))
                 .excludePathPatterns(
                         "/api/doctors/login",
-                        "/doctors/register",
-                        "/email/send",
-                        "/api/iot/*"
+                        "/api/doctors/register",
+                        "/api/email/send",
+                        "/api/iot/*",
+                        "/hello"
                 );
     }
 

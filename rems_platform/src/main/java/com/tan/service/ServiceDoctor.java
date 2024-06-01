@@ -27,9 +27,10 @@ public interface ServiceDoctor{
     /**
      * 登录
      *
-     * @param dtoDoctorLogin
+     * @param
      */
-    EntityResult login(DtoDoctorLogin dtoDoctorLogin);
+    //EntityResult login(DtoDoctorLogin dtoDoctorLogin);
+    EntityResult login(String username, String password);
 
     /**
      * 注册
@@ -45,4 +46,5 @@ public interface ServiceDoctor{
      * @return
      */
     EntityResult logout(HttpServletRequest request);
+
 }
