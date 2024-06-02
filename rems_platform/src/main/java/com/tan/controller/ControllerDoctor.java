@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/doctors")
+@CrossOrigin
 public class ControllerDoctor {
 
     @Autowired
@@ -32,16 +33,16 @@ public class ControllerDoctor {
      * @param //dtoDoctorLogin
      * @return
      */
-//    @PostMapping("/login")
-//    public EntityResult login(@RequestBody DtoDoctorLogin dtoDoctorLogin){
-//        return serviceDoctor.login(dtoDoctorLogin);
-//    }
     @PostMapping("/login")
-    public EntityResult login(String username,String password){
-        EntityResult result = serviceDoctor.login(username, password);
-        log.info("返回数据：{}",result);
-        return result;
+    public EntityResult login(@RequestBody DtoDoctorLogin dtoDoctorLogin){
+        return serviceDoctor.login(dtoDoctorLogin);
     }
+//    @PostMapping("/login")
+//    public EntityResult login(String username,String password){
+//        EntityResult result = serviceDoctor.login(username, password);
+//        log.info("返回数据：{}",result);
+//        return result;
+//    }
 
 
     /**

@@ -80,50 +80,9 @@ public class ServiceDoctorImpl implements ServiceDoctor {
      *
      * @param
      */
-//    @Override
-//    public EntityResult login(DtoDoctorLogin dtoDoctorLogin) {
-//        String username = dtoDoctorLogin.getUsername();
-//        //查询该用户是否存在
-//        LambdaQueryWrapper<EntityDoctor> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.eq(EntityDoctor::getUsername, username);
-//        EntityDoctor user = mapperDoctor.selectOne(queryWrapper);
-//
-//        //不存在,抛出异常
-//        if (Objects.isNull(user)) {
-//            return EntityResult.error(EntityResponseConstants.USER_NOT_FOUND);
-//        }
-//
-//
-//        //存在,校验密码
-//        if (user.getPassword().equals(Md5Util.getMD5String(dtoDoctorLogin.getPassword()))) {
-//            //用户名和密码正确,生成jwt
-//            Map<String, Object> claims = new HashMap<>();
-//            claims.put("username", username);
-//            claims.put("id", user.getId());
-//            String jwt = JwtUtils.generateJwt(claims);
-//            HashMap<String, String> map = new HashMap<>();
-//            map.put("token", jwt);
-//
-//            //将用户信息存入redis;token作为key,用户信息作为value
-//            //将UserDto转为map-->这种方式可以避免mybatis类型转换错误
-//            //StringRedisTemplate中的key,value都是字符串
-//            Map<String, Object> userMap = BeanUtil.beanToMap(user, new HashMap<>(),
-//                    CopyOptions.create()
-//                            .setIgnoreNullValue(true)
-//                            .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
-//
-//            stringRedisTemplate.opsForHash().putAll(LOGIN_DOCTOR_KEY + jwt, userMap);
-//            stringRedisTemplate.expire(LOGIN_DOCTOR_KEY + jwt, 30L, TimeUnit.MINUTES);
-//
-//
-//            log.info("map:{}",map);
-//
-//            return EntityResult.success(map);
-//        }
-
     @Override
-    public EntityResult login(String username, String password) {
-        //String username = dtoDoctorLogin.getUsername();
+    public EntityResult login(DtoDoctorLogin dtoDoctorLogin) {
+        String username = dtoDoctorLogin.getUsername();
         //查询该用户是否存在
         LambdaQueryWrapper<EntityDoctor> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(EntityDoctor::getUsername, username);
@@ -136,7 +95,7 @@ public class ServiceDoctorImpl implements ServiceDoctor {
 
 
         //存在,校验密码
-        if (user.getPassword().equals(Md5Util.getMD5String(password)) ){
+        if (user.getPassword().equals(Md5Util.getMD5String(dtoDoctorLogin.getPassword()))) {
             //用户名和密码正确,生成jwt
             Map<String, Object> claims = new HashMap<>();
             claims.put("username", username);
@@ -157,13 +116,54 @@ public class ServiceDoctorImpl implements ServiceDoctor {
             stringRedisTemplate.expire(LOGIN_DOCTOR_KEY + jwt, 30L, TimeUnit.MINUTES);
 
 
-            log.info("map:{}",map);
+            log.info("map:{}", map);
 
             return EntityResult.success(map);
         }
-        //密码错误
-        return EntityResult.error(EntityResponseConstants.PASSWORD_INCORRECT);
+        return EntityResult.success();
     }
+
+//    @Override
+//    public EntityResult login(String username, String password) {
+//        //String username = dtoDoctorLogin.getUsername();
+//        //查询该用户是否存在
+//        LambdaQueryWrapper<EntityDoctor> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.eq(EntityDoctor::getUsername, username);
+//        EntityDoctor user = mapperDoctor.selectOne(queryWrapper);
+//
+//        //不存在,抛出异常
+//        if (Objects.isNull(user)) {
+//            return EntityResult.error(EntityResponseConstants.USER_NOT_FOUND);
+//        }
+//
+//
+//        //存在,校验密码
+//        if (user.getPassword().equals(Md5Util.getMD5String(password)) ){
+//            //用户名和密码正确,生成jwt
+//            Map<String, Object> claims = new HashMap<>();
+//            claims.put("username", username);
+//            claims.put("id", user.getId());
+//            String jwt = JwtUtils.generateJwt(claims);
+//            HashMap<String, String> map = new HashMap<>();
+//            map.put("token", jwt);
+//
+//            //将用户信息存入redis;token作为key,用户信息作为value
+//            //将UserDto转为map-->这种方式可以避免mybatis类型转换错误
+//            //StringRedisTemplate中的key,value都是字符串
+//            Map<String, Object> userMap = BeanUtil.beanToMap(user, new HashMap<>(),
+//                    CopyOptions.create()
+//                            .setIgnoreNullValue(true)
+//                            .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+//
+//            stringRedisTemplate.opsForHash().putAll(LOGIN_DOCTOR_KEY + jwt, userMap);
+//            stringRedisTemplate.expire(LOGIN_DOCTOR_KEY + jwt, 30L, TimeUnit.MINUTES);
+//
+//
+//            return EntityResult.success(map);
+//        }
+//        //密码错误
+//        return EntityResult.error(EntityResponseConstants.PASSWORD_INCORRECT);
+//    }
 
     /**
      * 注册

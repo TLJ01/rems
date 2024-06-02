@@ -29,8 +29,8 @@ public interface ServiceDoctor{
      *
      * @param
      */
-    //EntityResult login(DtoDoctorLogin dtoDoctorLogin);
-    EntityResult login(String username, String password);
+    EntityResult login(DtoDoctorLogin dtoDoctorLogin);
+    //EntityResult login(String username, String password);
 
     /**
      * 注册

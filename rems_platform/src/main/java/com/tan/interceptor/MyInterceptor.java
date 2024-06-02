@@ -6,6 +6,7 @@ import com.tan.entity.EntityDoctor;
 import com.tan.utils.UserThreadLocal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +22,7 @@ import static com.tan.constant.RedisConstants.LOGIN_DOCTOR_KEY;
  *
  * 拦截器
  */
-
+@Slf4j
 public class MyInterceptor implements HandlerInterceptor {
 
     private StringRedisTemplate stringRedisTemplate;
@@ -38,6 +39,7 @@ public class MyInterceptor implements HandlerInterceptor {
         if (StrUtil.isBlank(token)) {
 //            response.setStatus(401);
 //            return false;
+            log.info("hello被拦截了");
             throw new RuntimeException("当前未登录");
         }
 

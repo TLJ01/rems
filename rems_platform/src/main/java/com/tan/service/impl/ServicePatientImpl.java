@@ -42,8 +42,6 @@ public class ServicePatientImpl implements ServicePatient {
     @Autowired
     private MapperDevice mapperDevice;
 
-
-
     /**
      * 获取医生id---->每位医生查看自己的病人
      * @return

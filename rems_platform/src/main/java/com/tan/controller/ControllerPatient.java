@@ -32,7 +32,7 @@ public class ControllerPatient {
      */
     @GetMapping("/page")
     public EntityResult list(DtoPatientQuery dtoPatientQuery){
-
+        log.info("dtoPatientQuery:{}", dtoPatientQuery);
         EntityPageBean<EntityPatient> entityPageBean = servicePatient.page(dtoPatientQuery);
         return EntityResult.success(entityPageBean);
     }
